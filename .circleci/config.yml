@@ -20,9 +20,9 @@ jobs:
       - run:
           name: "destroy"
           command: terraform destroy       
-      - run:
-          name: "apply"
-          command: terraform apply --auto-approve #we have to 
+      # - run:
+      #     name: "apply"
+      #     command: terraform apply --auto-approve #we have to 
       
 
            
