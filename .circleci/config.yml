@@ -16,24 +16,12 @@ jobs:
       - run:
           name: "apply"
           command: terraform apply --auto-approve #we have to 
-      - hold:
-          type: approval
-  # build2:
+      
 
-  #   docker:
-  #     - image: hashicorp/terraform 
-       
-  #   steps:
-  #     - checkout
-      
-      
-  #     - run: terraform apply --auto-approve
            
 workflows: 
   build:
     jobs:
       - build
-      # - build2:
-      #     requires:
-      #       - build  
+      
           
