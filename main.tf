@@ -1,5 +1,5 @@
 provider "google" {
-  project = "unified-chess-331509"
+  project = "terraform-project1-329600"
   region = "us-central1"
   zone = "us-centrall1-c"
 
