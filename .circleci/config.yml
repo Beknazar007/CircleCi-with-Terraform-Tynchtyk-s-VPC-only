@@ -12,7 +12,9 @@ jobs:
       - run:
           name: "plan"
           command: terraform plan
-      
+      - run:
+          name: "destroy"
+          command: terraform destroy
   build2:
     docker: 
       - image: hashicorp/terraform   # this terraform image to run our project 
