@@ -17,12 +17,10 @@ jobs:
     docker: 
       - image: hashicorp/terraform   # this terraform image to run our project 
     steps:
+      
       - run:
-          name: "destroy"
-          command: terraform destroy       
-      # - run:
-      #     name: "apply"
-      #     command: terraform apply --auto-approve #we have to 
+          name: "apply"
+          command: terraform apply --auto-approve #we have to 
       
 
            
