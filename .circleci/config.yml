@@ -8,7 +8,7 @@ jobs:
       - checkout 
       - run:
           name: "init"
-          command: terraform init
+          command: terraform init -upgrade
       - run:
           name: "plan"
           command: terraform plan
@@ -35,4 +35,3 @@ workflows:
       - build2:
           requires: 
             - hold
-            
