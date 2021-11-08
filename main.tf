@@ -21,18 +21,18 @@ module "network" {
 #==========================SUBNETS=============================
   subnets = [
     {
-      subnet_name = "presentation-subnet1"
+      subnet_name = "presentationsdfasdfasdfasd-subnet1"
       subnet_ip_range = var.presentation_ip_range
       subnet_region = "us-central1"
     },
     {
-      subnet_name = "application-subnet1"
+      subnet_name = "applicationasdfasdfasdf-subnet1"
       subnet_ip_range = var.application_ip_range
       subnet_region = "us-central1"
       subnet_private_access = true
     },
     {
-      subnet_name = "database-subnet1"
+      subnet_name = "databaseasdfasdfasdfasdf-subnet1"
       subnet_ip_range = var.database_ip_range
       subnet_region = "us-central1"
       subnet_private_access = true
