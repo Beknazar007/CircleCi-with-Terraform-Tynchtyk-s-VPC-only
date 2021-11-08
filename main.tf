@@ -42,15 +42,7 @@ module "network" {
   
 #============================ROUTES=============================
 
-  routes = [
-    {
-      name = "igw-route"
-      destination_range = var.igw_destination
-      tags = "public"
-      next_hop_internet = "true"
-    }
-  ]
-
+ 
 #=========================FIREWALL-RULES========================
   firewall_rules = [
   {
