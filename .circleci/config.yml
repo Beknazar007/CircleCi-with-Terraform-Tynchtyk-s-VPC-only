@@ -8,7 +8,7 @@ jobs:
       - checkout 
       - run:
           name: "init"
-          command: terraform init -upgrade
+          command: terraform init 
       - run:
           name: "plan"
           command: terraform plan
@@ -17,7 +17,10 @@ jobs:
     docker: 
       - image: hashicorp/terraform   # this terraform image to run our project 
     steps:
-      
+      - checkout 
+      - run:
+          name: "init"
+          command: terraform init 
       - run:
           name: "apply"
           command: terraform apply --auto-approve #we have to 
