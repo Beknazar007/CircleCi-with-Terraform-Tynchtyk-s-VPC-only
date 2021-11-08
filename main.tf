@@ -3,7 +3,7 @@ provider "google" {
   region = "us-central1"
   zone = "us-centrall1-c"
 
-  credentials = file("playground-s-11-e26b5c80-2ceb4ad04ed2.json")
+  credentials = file("terraform-project1-329600-12887c0041da.json")
 }
 
 # module "gke" {
