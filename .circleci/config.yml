@@ -11,8 +11,12 @@ jobs:
           command: terraform init
       - run:
           name: "plan"
-          command: terraform plan 
+          command: terraform plan
       
+  build2:
+    docker: 
+      - image: hashicorp/terraform   # this terraform image to run our project 
+    steps:       
       - run:
           name: "apply"
           command: terraform apply --auto-approve #we have to 
@@ -23,5 +27,10 @@ workflows:
   build:
     jobs:
       - build
-      
-          
+      - hold:
+          type: approval 
+          requires:
+            - build
+      - build2:
+          requires: 
+            - hold
