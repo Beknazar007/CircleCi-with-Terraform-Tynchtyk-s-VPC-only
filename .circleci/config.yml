@@ -22,6 +22,9 @@ jobs:
           name: "init"
           command: terraform init 
       - run:
+          name: "plan"
+          command: terraform plan
+      - run:
           name: "apply"
           command: terraform apply --auto-approve #we have to 
       
