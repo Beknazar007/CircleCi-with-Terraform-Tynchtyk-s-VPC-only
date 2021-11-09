@@ -47,20 +47,21 @@ orbs:
 workflows:
   deploy_infrastructure:
     jobs:
-      - terraform/fmt:
-          checkout: true
-          context: dev_server_cred
+      
       - terraform/validate:
           checkout: true
           context: dev_server_cred
-          requires:
-            - terraform/fmt
+          
       - terraform/plan:
           checkout: true
           context: dev_server_cred
           persist-workspace: true
           requires:
             - terraform/validate
+      - hold:
+          type: approval
+          requires:
+            - terraform/plan
       - terraform/apply:
           attach-workspace: true
           context: dev_server_cred
