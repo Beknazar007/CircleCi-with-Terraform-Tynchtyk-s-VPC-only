@@ -34,12 +34,12 @@ workflows:
   build:
     jobs:
       - build:
-          context: dev-server-cred
+          context: dev_server_cred
       - hold:
           type: approval 
           requires:
             - build
       - build2:
-          context: prod-server-cred
+          context: prod_server_cred
           requires: 
             - hold
