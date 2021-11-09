@@ -1,45 +1,75 @@
-version: 2.1
+# version: 2.1
 
-jobs: 
-  build:
-    docker: 
-      - image: hashicorp/terraform   # this terraform image to run our project 
-    steps: 
-      - checkout 
-      - run:
-          name: "init"
-          command: terraform init 
-      - run:
-          name: "plan"
-          command: terraform plan
+# jobs: 
+#   build:
+#     docker: 
+#       - image: hashicorp/terraform   # this terraform image to run our project 
+#     steps: 
+#       - checkout 
+#       - run:
+#           name: "init"
+#           command: terraform init 
+#       - run:
+#           name: "plan"
+#           command: terraform plan
       
-  build2:
-    docker: 
-      - image: hashicorp/terraform   # this terraform image to run our project 
-    steps:
-      - checkout 
-      - run:
-          name: "init"
-          command: terraform init 
-      - run:
-          name: "plan"
-          command: terraform plan
-      - run:
-          name: "apply"
-          command: terraform apply --auto-approve 
+#   build2:
+#     docker: 
+#       - image: hashicorp/terraform   # this terraform image to run our project 
+#     steps:
+#       - checkout 
+#       - run:
+#           name: "init"
+#           command: terraform init 
+#       - run:
+#           name: "plan"
+#           command: terraform plan
+#       - run:
+#           name: "apply"
+#           command: terraform apply --auto-approve 
+# workflows: 
+#   build:
+#     jobs:
+#       - build:
+#           context: dev_server_cred
+#       - hold:
+#           type: approval 
+#           requires:
+#             - build
+#       - build2:
+          
+#           requires: 
+#             - hold
+#             - build
+version: 2.1
+orbs:
+  terraform: circleci/terraform@3.0.0
+workflows:
+  deploy_infrastructure:
+    jobs:
+      - terraform/fmt:
+          checkout: true
+          context: dev_server_cred
+      - terraform/validate:
+          checkout: true
+          context: dev_server_cred
+          requires:
+            - terraform/fmt
+      - terraform/plan:
+          checkout: true
+          context: dev_server_cred
+          persist-workspace: true
+          requires:
+            - terraform/validate
+      - terraform/apply:
+          attach-workspace: true
+          context: dev_server_cred
+          filters:
+            branches:
+              only: main
+          requires:
+            - terraform/plan
       
 
            
-workflows: 
-  build:
-    jobs:
-      - build:
-          context: dev_server_cred
-      - hold:
-          type: approval 
-          requires:
-            - build
-      - build2:
-          context: prod_server_cred
-          requires: 
-            - hold
+
