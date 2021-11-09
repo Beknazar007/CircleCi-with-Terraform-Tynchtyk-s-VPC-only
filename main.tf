@@ -1,9 +1,9 @@
 provider "google" {
-  project = "playground-s-11-e26b5c80"
+  project = "terraform-project1-329600"
   region = "us-central1"
-  zone = "us-centrall1-c"
+  zone = "us-centrall1-a"
 
-  credentials = file("playground-s-11-e26b5c80-2ceb4ad04ed2.json")
+  credentials = file("terraform-project1-329600-12887c0041da.json")
 }
 
 # module "gke" {
@@ -21,18 +21,18 @@ module "network" {
 #==========================SUBNETS=============================
   subnets = [
     {
-      subnet_name = "presentation-subnet"
+      subnet_name = "presentation-subnet1"
       subnet_ip_range = var.presentation_ip_range
       subnet_region = "us-central1"
     },
     {
-      subnet_name = "application-subnet"
+      subnet_name = "application-subnet1"
       subnet_ip_range = var.application_ip_range
       subnet_region = "us-central1"
       subnet_private_access = true
     },
     {
-      subnet_name = "database-subnet"
+      subnet_name = "database-subnet1"
       subnet_ip_range = var.database_ip_range
       subnet_region = "us-central1"
       subnet_private_access = true

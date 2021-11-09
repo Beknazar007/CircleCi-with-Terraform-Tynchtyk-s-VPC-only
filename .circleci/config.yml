@@ -8,32 +8,38 @@ jobs:
       - checkout 
       - run:
           name: "init"
-          command: terraform init
+          command: terraform init 
       - run:
           name: "plan"
-          command: terraform plan 
+          command: terraform plan
       
+  build2:
+    docker: 
+      - image: hashicorp/terraform   # this terraform image to run our project 
+    steps:
+      - checkout 
+      - run:
+          name: "init"
+          command: terraform init 
+      - run:
+          name: "plan"
+          command: terraform plan
       - run:
           name: "apply"
           command: terraform apply --auto-approve #we have to 
-      - hold:
-          type: approval
-  # build2:
+      
 
-  #   docker:
-  #     - image: hashicorp/terraform 
-       
-  #   steps:
-  #     - checkout
-      
-      
-  #     - run: terraform apply --auto-approve
            
 workflows: 
   build:
     jobs:
-      - build
-      # - build2:
-      #     requires:
-      #       - build  
-          
+      - build:
+          context: dev-server-cred
+      - hold:
+          type: approval 
+          requires:
+            - build
+      - build2:
+          context: prod-server-cred
+          requires: 
+            - hold
