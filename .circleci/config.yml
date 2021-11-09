@@ -33,11 +33,13 @@ jobs:
 workflows: 
   build:
     jobs:
-      - build
+      - build:
+          context: dev-server-cred
       - hold:
           type: approval 
           requires:
             - build
       - build2:
+          context: prod-server-cred
           requires: 
             - hold
