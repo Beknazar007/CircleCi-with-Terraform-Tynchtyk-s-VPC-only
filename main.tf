@@ -1,10 +1,10 @@
 
 provider "google" {
-  project = "unified-chess-331509"
+  project = "terraform-project1-329600"
   region = "us-central1"
   zone = "us-centrall1-a"
 
-  credentials = file("unified-chess-331509-aa2bd585a510.json")
+  credentials = file("terraform-project1-329600-12887c0041da.json")
 
 }
 
