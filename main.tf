@@ -1,9 +1,4 @@
-terraform {
-  backend "gcs" {
-    bucket  = "beki-my-bucket-for-circleci"
-    prefix  = "terraform/state"
-  }
-}
+
 provider "google" {
   project = "unified-chess-331509"
   region = "us-central1"
