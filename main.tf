@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket  = "tf-state-prod"
+    bucket  = "beki-my-bucket-for-circleci"
     prefix  = "terraform/state"
   }
 }
@@ -19,21 +19,7 @@ provider "google" {
 #   subnetwork = module.network.subnetwork_name
 #   machine_type = "g1-small"
 # }
-data "terraform_remote_state" "foo" {
-  backend = "gcs"
-  config = {
-    bucket  = "terraform-state"
-    prefix  = "prod"
-  }
-}
 
-resource "template_file" "bar" {
-  template = "${greeting}"
-
-  vars {
-    greeting = "${data.terraform_remote_state.foo.greeting}"
-  }
-}
 module "network" {
   source = "./network"
   delete_default_routes_on_create = true
