@@ -1,15 +1,16 @@
-provider "google" {
-  project = "terraform-project1-329600"
-  region = "us-central1"
-  zone = "us-centrall1-a"
-
-  # credentials = file("terraform-project1-329600-12887c0041da.json")
-  terraform {
+terraform {
   backend "gcs" {
     bucket  = "tf-state-prod"
     prefix  = "terraform/state"
   }
 }
+provider "google" {
+  project = "terraform-project1-329600"
+  region = "us-central1"
+  zone = "us-centrall1-a"
+
+  credentials = file("terraform-project1-329600-12887c0041da.json")
+
 }
 
 # module "gke" {
