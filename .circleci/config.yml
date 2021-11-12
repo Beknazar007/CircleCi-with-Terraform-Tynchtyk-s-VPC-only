@@ -1,76 +1,76 @@
-# version: 2.1
-
-# jobs: 
-#   build:
-#     docker: 
-#       - image: hashicorp/terraform   # this terraform image to run our project 
-#     steps: 
-#       - checkout 
-#       - run:
-#           name: "init"
-#           command: terraform init 
-#       - run:
-#           name: "plan"
-#           command: terraform plan
-      
-#   build2:
-#     docker: 
-#       - image: hashicorp/terraform   # this terraform image to run our project 
-#     steps:
-#       - checkout 
-#       - run:
-#           name: "init"
-#           command: terraform init 
-#       - run:
-#           name: "plan"
-#           command: terraform plan
-#       - run:
-#           name: "apply"
-#           command: terraform apply --auto-approve 
-# workflows: 
-#   build:
-#     jobs:
-#       - build:
-#           context: dev_server_cred
-#       - hold:
-#           type: approval 
-#           requires:
-#             - build
-#       - build2:
-          
-#           requires: 
-#             - hold
-#             - build
 version: 2.1
-orbs:
-  terraform: circleci/terraform@3.0.0
-workflows:
-  deploy_infrastructure:
-    jobs:
+
+jobs: 
+  build:
+    working_directory: ~/terraform
+    docker: 
+      - image: hashicorp/terraform  
+    steps: 
+      - checkout 
+      - run:
+          name: "init"
+          command: terraform init ~/terraform
+      - run:
+          name: "plan"
+          command: terraform plan ~/terraform
       
-      - terraform/validate:
-          checkout: true
-          context: dev_server_cred
-          
-      - terraform/plan:
-          checkout: true
-          context: dev_server_cred
-          persist-workspace: true
-          requires:
-            - terraform/validate
+  build2:
+    working_directory: ~/terraform
+    docker: 
+      - image: hashicorp/terraform     
+    steps:
+      - checkout 
+      - run:
+          name: "init"
+          command: terraform init ~/terraform
+      
+      - run:
+          name: "apply"
+          command: terraform apply --auto-approve ~/terraform
+workflows: 
+  build:
+    jobs:
+      - build:
+          context: ENV_CRED_GCP
       - hold:
-          type: approval
+          type: approval 
           requires:
-            - terraform/plan
-      - terraform/apply:
-          attach-workspace: true
-          context: dev_server_cred
-          filters:
-            branches:
-              only: main
-          requires:
-            - terraform/plan
+            - build
+      - build2:
+          context: ENV_CRED_GCP
+          requires: 
             - hold
+            - build
+# version: 2.1
+# orbs:
+#   terraform: circleci/terraform@3.0.0
+# workflows:
+#   deploy_infrastructure:
+#     jobs:
+      
+#       - terraform/validate:
+#           checkout: true
+#           context: dev_server_cred
+          
+#       - terraform/plan:
+#           checkout: true
+#           context: dev_server_cred
+#           persist-workspace: true
+#           requires:
+#             - terraform/validate
+#       - hold:
+#           type: approval
+#           requires:
+#             - terraform/plan
+#       - terraform/apply:
+#           attach-workspace: true
+#           context: dev_server_cred
+#           filters:
+#             branches:
+#               only: main
+#           requires:
+#             - terraform/plan
+#             - hold
       
 
            
