@@ -5,11 +5,11 @@ terraform {
   }
 }
 provider "google" {
-  project = "terraform-project1-329600"
+  project = "unified-chess-331509"
   region = "us-central1"
   zone = "us-centrall1-a"
 
-  credentials = file("terraform-project1-329600-12887c0041da.json")
+  credentials = file("unified-chess-331509-aa2bd585a510.json")
 
 }
 
