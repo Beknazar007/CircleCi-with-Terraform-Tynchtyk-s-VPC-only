@@ -30,8 +30,8 @@ jobs:
 workflows: 
   build:
     jobs:
-      - build:
-          context: prod_server_cred
+      - build
+          
       - hold:
           type: approval 
           requires:
