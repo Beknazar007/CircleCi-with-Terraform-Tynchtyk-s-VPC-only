@@ -1,43 +1,31 @@
 version: 2.1
-
-jobs: 
-  build:
-    working_directory: ~/terraform
-    docker: 
-      - image: hashicorp/terraform  
-    steps: 
-      - checkout 
-      - run:
-          name: "init"
-          command: terraform init ~/terraform
-      - run:
-          name: "plan"
-          command: terraform plan ~/terraform
-      
-  build2:
-    working_directory: ~/terraform
-    docker: 
-      - image: hashicorp/terraform     
-    steps:
-      - checkout 
-      - run:
-          name: "init"
-          command: terraform init ~/terraform
-      
-      - run:
-          name: "apply"
-          command: terraform apply --auto-approve ~/terraform
-workflows: 
-  build:
+orbs:
+  terraform: circleci/terraform@3.0.0
+workflows:
+  deploy_infrastructure:
     jobs:
-      - build:
+      
+      - terraform/validate:
+          checkout: true
           context: ENV_CRED_GCP
-      - hold:
-          type: approval 
+          
+      - terraform/plan:
+          checkout: true
+          context: ENV_CRED_GCP
+          persist-workspace: true
           requires:
-            - build
-      - build2:
+            - terraform/validate
+      - hold:
+          type: approval
+          requires:
+            - terraform/plan
+      - terraform/apply:
+          attach-workspace: true
           context: ENV_CRED_GCP
-          requires: 
+          filters:
+            branches:
+              only: main
+          requires:
+            - terraform/plan
             - hold
-            - build
+      
