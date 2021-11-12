@@ -1,76 +1,76 @@
-# version: 2.1
-
-# jobs: 
-#   build:
-#     docker: 
-#       - image: hashicorp/terraform   # this terraform image to run our project 
-#     steps: 
-#       - checkout 
-#       - run:
-#           name: "init"
-#           command: terraform init 
-#       - run:
-#           name: "plan"
-#           command: terraform plan
-      
-#   build2:
-#     docker: 
-#       - image: hashicorp/terraform   # this terraform image to run our project 
-#     steps:
-#       - checkout 
-#       - run:
-#           name: "init"
-#           command: terraform init 
-#       - run:
-#           name: "plan"
-#           command: terraform plan
-#       - run:
-#           name: "apply"
-#           command: terraform apply --auto-approve 
-# workflows: 
-#   build:
-#     jobs:
-#       - build:
-#           context: dev_server_cred
-#       - hold:
-#           type: approval 
-#           requires:
-#             - build
-#       - build2:
-          
-#           requires: 
-#             - hold
-#             - build
 version: 2.1
-orbs:
-  terraform: circleci/terraform@3.0.0
-workflows:
-  deploy_infrastructure:
-    jobs:
+
+jobs: 
+  build:
+    docker: 
+      - image: hashicorp/terraform   # this terraform image to run our project 
+    steps: 
+      - checkout 
+      - run:
+          name: "init"
+          command: terraform init 
+      - run:
+          name: "plan"
+          command: terraform plan
       
-      - terraform/validate:
-          checkout: true
+  build2:
+    docker: 
+      - image: hashicorp/terraform   # this terraform image to run our project 
+    steps:
+      - checkout 
+      - run:
+          name: "init"
+          command: terraform init 
+      - run:
+          name: "plan"
+          command: terraform plan
+      - run:
+          name: "apply"
+          command: terraform apply --auto-approve 
+workflows: 
+  build:
+    jobs:
+      - build:
           context: dev_server_cred
-          
-      - terraform/plan:
-          checkout: true
-          context: dev_server_cred
-          persist-workspace: true
-          requires:
-            - terraform/validate
       - hold:
-          type: approval
+          type: approval 
           requires:
-            - terraform/plan
-      - terraform/apply:
-          attach-workspace: true
-          context: dev_server_cred
-          filters:
-            branches:
-              only: main
-          requires:
-            - terraform/plan
+            - build
+      - build2:
+          
+          requires: 
             - hold
+            - build
+# version: 2.1
+# orbs:
+#   terraform: circleci/terraform@3.0.0
+# workflows:
+#   deploy_infrastructure:
+#     jobs:
+      
+#       - terraform/validate:
+#           checkout: true
+#           context: dev_server_cred
+          
+#       - terraform/plan:
+#           checkout: true
+#           context: dev_server_cred
+#           persist-workspace: true
+#           requires:
+#             - terraform/validate
+#       - hold:
+#           type: approval
+#           requires:
+#             - terraform/plan
+#       - terraform/apply:
+#           attach-workspace: true
+#           context: dev_server_cred
+#           filters:
+#             branches:
+#               only: main
+#           requires:
+#             - terraform/plan
+#             - hold
       
 
            
