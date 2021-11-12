@@ -27,5 +27,5 @@ workflows:
               only: main
           requires:
             - terraform/plan
-            - hold
+            
       
