@@ -3,13 +3,7 @@ provider "google" {
   region = "us-central1"
   zone = "us-centrall1-a"
 
-  # credentials = file("terraform-project1-329600-12887c0041da.json")
-  terraform {
-  backend "gcs" {
-    bucket  = "tf-state-prod"
-    prefix  = "terraform/state"
-  }
-}
+  credentials = file("terraform-project1-329600-12887c0041da.json")
 }
 
 # module "gke" {
@@ -18,21 +12,7 @@ provider "google" {
 #   subnetwork = module.network.subnetwork_name
 #   machine_type = "g1-small"
 # }
-data "terraform_remote_state" "foo" {
-  backend = "gcs"
-  config = {
-    bucket  = "terraform-state"
-    prefix  = "prod"
-  }
-}
 
-resource "template_file" "bar" {
-  template = "${greeting}"
-
-  vars {
-    greeting = "${data.terraform_remote_state.foo.greeting}"
-  }
-}
 module "network" {
   source = "./network"
   delete_default_routes_on_create = true
