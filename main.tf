@@ -9,7 +9,7 @@ provider "google" {
   region = "us-central1"
   zone = "us-centrall1-a"
 
-  credentials = file("terraform-project1-329600-12887c0041da.json")
+  
 
 }
 
